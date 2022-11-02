@@ -16,8 +16,11 @@ class App:
         self.camera_label = tk.Label(window, width= int(self.vid.get(cv2.CAP_PROP_FRAME_WIDTH)), height=int(self.vid.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         self.camera_label.grid(row=0, columnspan=8, padx=0, pady=0)
 
-        self.capture_btn = tk.Button(window, text="Capture", command=self.capture, borderwidth=3, padx=7, pady=7, relief=tk.RAISED, bg="#4465e7", fg="#ffffff")
-        self.capture_btn.grid(row=1, columnspan=8, pady=10)
+        self.capture_btn = tk.Button(window, width=10, text="Capture", command=self.capture, borderwidth=3, padx=7, pady=7, relief=tk.RAISED, bg="#4465e7", fg="#ffffff")
+        self.capture_btn.grid(row=1, column=3, padx=0, pady=10)
+
+        self.detect_shapes_btn = tk.Button(window, width=10, text="Detect Shapes", command="", borderwidth=3, padx=7, pady=7, relief=tk.RAISED, bg="#4465e7", fg="#ffffff")
+        self.detect_shapes_btn.grid(row=1, column=4, padx=0, pady=10)
 
         self.window.protocol("WM_DELETE_WINDOW", self.on_exit)
 
@@ -52,6 +55,9 @@ class App:
     
         if saved_img:
             messagebox.showinfo("Success", "Image saved at " + img)
+
+    def process_image():
+        pass
 
     def on_exit(self):
         self.vid.release()

@@ -1,10 +1,10 @@
 import numpy as np
 from scipy.ndimage import convolve, gaussian_filter
 # from scipy.misc import imread, imshow
-import cv2
-from PIL import Image
+# import cv2
+# from PIL import Image
 	
-def CannyEdgeDetector(im, blur = 1, highThreshold = 91, lowThreshold = 31):
+def canny_edge_detection(im, blur = 1, highThreshold = 91, lowThreshold = 31):
 	im = np.array(im, dtype=float) #Convert to float to prevent clipping values
  
 	#Gaussian blur to reduce noise
@@ -83,12 +83,14 @@ def CannyEdgeDetector(im, blur = 1, highThreshold = 91, lowThreshold = 31):
 
 if __name__=="__main__":
 	# im = imread("images/test.jpg", mode="L") #Open image, convert to greyscale
-    image = cv2.imread('images/shapes4.png')
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  
-    finalEdges = CannyEdgeDetector(gray)
-    print(type(finalEdges))
 
-    test = Image.fromarray(finalEdges)
-    test.show()
+    # image = cv2.imread('images/shapes4.png')
+    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  
+    # finalEdges = CannyEdgeDetector(gray)
+    # print(type(finalEdges))
 
-    test.save("images/canny.jpg")
+    # test = Image.fromarray(finalEdges)
+    # test.show()
+
+    # test.save("images/canny.jpg")
+	pass

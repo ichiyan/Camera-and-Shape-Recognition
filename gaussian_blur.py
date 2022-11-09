@@ -29,16 +29,15 @@ def gaussian_kernel(size, sigma=1, verbose=False):
 def convolution(image, kernel, average=False, verbose=False):
     
     if len(image.shape) == 3:
-        print(f"Found 3 channels : {image.shape}")
+        if verbose: print(f"Found 3 channels : {image.shape}")
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        print(f"Converted to gray channel. Size : {image.shape}")
+        if verbose: print(f"Converted to gray channel. Size : {image.shape}")
     
     else:
-        print(f"Image Shape : {image.shape}")
-
-    print(f"Kernel Shape : {kernel.shape}")
+        if verbose: print(f"Image Shape : {image.shape}")
 
     if verbose:
+        print(f"Kernel Shape : {kernel.shape}")
         plt.imshow(image, cmap="gray")
         plt.title("Image")
         plt.show()
@@ -54,12 +53,28 @@ def convolution(image, kernel, average=False, verbose=False):
     padded_image = np.zeros((image_row + (2 * pad_height), image_col + (2 * pad_width)))
     padded_image[ pad_height: padded_image.shape[0] - pad_height, pad_width: padded_image.shape[1] - pad_width ] = image  
 
+    if verbose:
+        plt.imshow(padded_image, cmap="gray")
+        plt.title("Padded Image")
+        plt.show()
+    
+    
     for row in range(image_row):
         for col in range(image_col):
             output[row, col] = np.sum(kernel * padded_image[row: row + kernel_row, col: col + kernel_col])
 
     if average:
         output[row, col] /= kernel.shape[0] * kernel.shape[1]
+
+    if verbose:
+        print(f"Output image size : {output.shape}")
+        plt.imshow(output, cmap="gray")
+        plt.title(f"Output Image Using {kernel_row}x{kernel_col} Kernel")
+        plt.show()
+
+        print(type(output))
+
+    return output
 
 def gaussian_blur(image, kernel_size, verbose=False):
     kernel = gaussian_kernel(kernel_size, sigma=math.sqrt(kernel_size), verbose=verbose)
@@ -73,4 +88,6 @@ if __name__  == "__main__":
 
     image = cv2.imread(args["image"])
 
-    gaussian_blur(image, 5, verbose=True)
+    test = gaussian_blur(image, 15, verbose=True)
+    # print(type(test))
+    # print(test)

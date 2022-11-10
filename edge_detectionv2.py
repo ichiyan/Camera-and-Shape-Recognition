@@ -1,14 +1,13 @@
 import numpy as np
+from gaussian_blurv2 import gaussian_blurv2
 from scipy.ndimage import convolve, gaussian_filter
-# from scipy.misc import imread, imshow
-# import cv2
-# from PIL import Image
 	
 def canny_edge_detection(im, blur = 1, highThreshold = 91, lowThreshold = 31):
 	im = np.array(im, dtype=float) #Convert to float to prevent clipping values
  
 	#Gaussian blur to reduce noise
 	im2 = gaussian_filter(im, blur)
+	# im2 = gaussian_blurv2(im, )
 
 	#Use sobel filters to get horizontal and vertical gradients
 	im3h = convolve(im2,[[-1,0,1],[-2,0,2],[-1,0,1]]) 

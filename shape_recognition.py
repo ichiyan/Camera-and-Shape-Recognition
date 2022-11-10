@@ -12,18 +12,23 @@ from rdp import rdp
 def process_img(img):
 
    img_arr = np.array(img)
+   # gaussian blur to reduce noise 
    # gaussian blur already converts image to greyscale
    processed = gaussian_blurv2(img_arr, 3, 2)
+   # extract edges to reduce the amount of data to be processed
    processed = canny_edge_detection(processed)
-
+   # contours are defined as the line joining all the points along the boundary of an image that are having the same intensity.
+   # implements suzuki contour algo
    contours = find_contours(processed)
    draw_contour(img, (255,255,0), contours[7])
 
    peri = perimeter(contours[7])
 
+   # Ramer-Douglas-Peucker algorithm to reduce the number of points in a curve/line 
+   # without losing the shape of the curve/line, based on some tolerance parameter 'epsilon' (ε)
    points = rdp(contours[7], peri * 0.03)
    
-   return img, points
+   return processed, points
 
 
 def shape(points):
@@ -43,7 +48,7 @@ def shape(points):
 
 def main():
 
-   images = ['triangle', 'square', 'hexagon', 'octagon']
+   images = ['triangle', 'rectangle', 'hexagon', 'octagon']
 
    fig = plt.figure(figsize=(20, 20))
    fig.tight_layout()
@@ -55,8 +60,8 @@ def main():
       processed_img, points = process_img(img) 
       shape_name = shape(points)
 
-      # print(points)
-      # print([tuple(y/50 for y in x) for x in points])
+      print(points)
+      print([tuple(x/50 for x in pt) for pt in points])
 
       fig.add_subplot(rows, columns, ndx + 1)
       plt.title(shape_name)
@@ -69,11 +74,13 @@ def main():
 main()
 
 
-# img = Image.open('images/'+ 'circle' + '.png')
+# img = Image.open('images/triangle.png')
 # processed_img, points = process_img(img) 
 # shape_name = shape(points)
 
 # print(points)
 # print([tuple(y/50 for y in x) for x in points])
 
+# processed_img = Image.fromarray(processed_img)
+# processed_img.show()
 # img.show()
